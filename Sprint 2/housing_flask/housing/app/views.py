@@ -9,7 +9,35 @@ import seaborn as sns
 from app import models
 
 
-engine = create_engine('mysql+pymysql://rafik:simplon@localhost/startups50')
+def connect_db(dico):
+
+    str_engine = (
+        dico["connector"]
+        + "://"
+        + dico["user"]
+        + ":"
+        + dico["pwd"]
+        + "@"
+        + dico["host"]
+        + ":"
+        + dico["port"]
+        + "/"
+        + dico["bdd"]
+    )
+    connect = create_engine(str_engine)
+    return connect
+
+
+d = {
+    "connector": "postgresql",
+    "user": "luca",
+    "pwd": "simplon",
+    "host": "localhost",
+    "port": "5432",
+    "bdd": "housing",
+}
+
+engine = connect_db(d)
 
 # C'est ici qu'on demande à notre appli flask d'acheminer toutes les demandes d'URL à la racine vers la fonction index()
 # A chaque fois qu'on ouvrira un navigateur pour accéder à l'indexe, c'est cette fonction qui sera appelé

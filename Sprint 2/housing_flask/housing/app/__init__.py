@@ -9,8 +9,13 @@ from app.config import configuration
 # Cela va permettre à l'application de trouver les ressources dont elle à besoin dans le dossier en cours
 # L'instance d'application est le registre central pour les éléments tel que les vues, les itinéraires d'URL, ou les configuration des modèle
 # En somme on initialise l'application Flask
-app = Flask( __name__ )
 
-# Prise en charge des requêtes
-from app import views
-from app import models
+def create_app(test_config=None):
+    # create and configure the app
+    app = Flask(__name__, instance_relative_config=True)
+    app.config.from_mapping(
+        SECRET_KEY='dev',
+        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
+    )
+
+    return app
