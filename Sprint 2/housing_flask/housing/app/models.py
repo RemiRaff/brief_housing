@@ -59,5 +59,5 @@ def graphique():
     plt.xlabel('Dépense $')
 
     plt.savefig("app/static/img/dashboard.png")
-    
     return None
+    plt.close()
