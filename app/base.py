@@ -11,12 +11,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base  
 from sqlalchemy.orm import sessionmaker
 
+import json
 
-d={'user':'remi',
-   'pwd':'simplon',
-   'host':'localhost'}
+with open('./app/.config.json', 'r') as fichier:
+    data = json.load(fichier)
 
-db_string = "postgres://"+d['user']+":"+d['pwd']+"@"+d['host']+':5432/housing'
+db_string = data["connector"]+"://"+data['user']+":"+data['pwd']+"@"+data['host']+':'+data['port']+'/'+data['bd']
+
 
 engine = create_engine(db_string)
 

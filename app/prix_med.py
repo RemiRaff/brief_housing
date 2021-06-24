@@ -6,7 +6,7 @@ Created on Thu Jun 17 15:15:03 2021
 @author: simplon
 """
 
-from base import Base
+from app.base import Base
 from sqlalchemy import Column, Integer, Float, String
 
 

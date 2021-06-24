@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+	<title>California housing</title>
+</head>
+
+
+<body>
+	<div align="middle">
+		<img src="{{url_for('static', filename='img/c_housing.jpeg')}}">
+	</div>
+	
+    <h1 align="middle" style="color:darkorange;">Bienvenue sur Immo Predict</h1>
+	
+	<div align="middle">
+		<a href="{{ url_for('dashboard')}}">Accéder au Tableaux de bord</a><br>	
+	    <a href="{{ url_for('formulaire_predict')}}">Obtenir une estimation</a><br>
+	</div>
+	
+	<footer> 
+		<div align="middle">
+			<br><br>Date d'actuallisation : {{ date }}
+		</div>
+	</footer> 
+
+</body>
+</html>
+

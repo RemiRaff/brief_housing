@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+	<title>California housing</title>
+</head>
+
+
+<body>
+	<div align="middle">
+		<img src="{{url_for('static', filename='img/c_housing.jpeg')}}">
+	</div>
+	
+    <h1 align="middle" style="color:darkorange;">Estimation</h1>
+	
+	<div align="middle">
+
+		Le revenus médian est : {{ mi }}<br>
+		La proximité à la mer est : {{ nop }}/3<br><br>
+
+		Le prix médian estimé est de : {{ predict }} $
+
+	</div>
+	
+	<footer> 
+		<div align="middle">
+			<br><br>Date d'actuallisation : {{ date }}
+		</div>
+	</footer> 
+
+</body>
+</html>
+
