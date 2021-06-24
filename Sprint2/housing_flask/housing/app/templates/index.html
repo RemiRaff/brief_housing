@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+	<title>Invest in Startups</title>
+</head>
+
+
+<body>
+	<div align="middle">
+		<img src="{{url_for('static', filename='img/invest-in-startups.png')}}">
+	</div>
+	
+    <h1 align="middle" style="color:darkorange;">Bienvenue sur notre application en ligne</h1>
+	
+    <div class="col-md-4"><form class="form-horizontal" role="form"><div class="form-group"><div class="col-md-12 addressWrapper">
+      <p class="h4">Adresse</p><input id="address" class="form-control" type="text"><div id="resultsWrapper"><div id="results" class="mapSearchResults">
+
+      </div></div></div></div><div class="form-group"><div class="col-md-4"><button type="button" class="btn btn-primary" onclick="codeAddress()">
+        Obtenir les coordonnées GPS</button></div></div></form><form class="form-horizontal" role="form"><h4>DD (degrés décimaux)*</h4>
+      <div class="form-group"><label class="col-md-3 control-label" for="latitude">Latitude</label><div class="col-md-9"><input id="latitude" 
+      class="form-control" type="text"></div></div><div class="form-group"><label class="col-md-3 control-label" for="longitude">Longitude</label>
+      <div class="col-md-9"><input id="longitude" class="form-control" type="text"></div></div><div class="form-group"><div class="col-md-4">
+      <button type="button" class="btn btn-primary" onclick="codeLatLng(1)">Obtenir l'adresse</button></div></div><div class="form-group">
+      <label class="col-md-3 control-label" for="longitude">Lat,Long</label><div class="col-md-9"><input id="latlong" 
+      class="form-control selectall" type="text"></div></div></form><form class="form-horizontal" role="form"><h4>DMS 
+      (degrés, minutes, secondes)*</h4><div class="form-group"><label class="col-md-3 control-label" for="latitude">Latitude</label>
+      <div class="col-md-9"><label class="radio-inline"><input type="radio" name="latnordsud" value="nord" id="nord" checked="">
+
+      <form class="form-horizontal" role="form"><h4>DD (degrés décimaux)*</h4>
+      <div class="form-group"><label class="col-md-3 control-label" for="latitude">Latitude</label>
+      <div class="col-md-9"><input id="latitude" class="form-control" type="text"></div></div><div class="form-group">
+      <label class="col-md-3 control-label" for="longitude">Longitude</label><div class="col-md-9"><input id="longitude" class="form-control" type="text">
+      </div></div><div class="form-group"><div class="col-md-4"><button type="button" class="btn btn-primary" onclick="codeLatLng(1)">Obtenir l'adresse</button>
+      </div></div><div class="form-group"><label class="col-md-3 control-label" for="longitude">Lat,Long</label><div class="col-md-9">
+      <input id="latlong" class="form-control selectall" type="text"></div></div></form>
+
+
+
+
+
+
+
+
+    <div class="mk-map-view mk-disable-all-gestures" style="position: relative;"><iframe tabindex="-1" aria-hidden="true"></iframe><canvas 
+      style="width: 750px; height: 500px; background-color: rgb(249, 245, 237);" width="750" height="500" class="syrup-canvas" aria-hidden="true"></canvas>
+      <canvas class="rt-root" aria-hidden="true" style="width: 750px; height: 500px;" width="750" height="500">
+      </canvas><div class="mk-map-node-element" style="width: 750px; height: 500px;"><div class="mk-annotation-container"><div slot="mk-slot-onf2eh7u"></div><
+        /div><div class="mk-controls-container"></div></div></div>
+        
+	<div align="middle">
+		<a href="{{ url_for('dashboard')}}">Accéder au Tableaux de bord</a><br>	
+	    <a href="{{ url_for('formulaire_predict')}}">Obtenir une estimation de profit</a><br>
+	</div>
+	
+	<footer> 
+		<div align="middle">
+			<br><br>Date d'actuallisation : {{ date }}
+		</div>
+	</footer> 
+
+</body>
+</html>
+
