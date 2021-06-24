@@ -1,63 +1,100 @@
 # coding: utf8
 import pandas as pd
-from sqlalchemy import create_engine
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from joblib import load
 
-engine = create_engine('mysql+pymysql://rafik:simplon@localhost/startups50')
+from app.base import Base, Session, engine
+from app.prix_med import Prix_Median
 
 
 def graphique():
+    Base.metadata.create_all(engine)
+    session = Session()
+    # data est une liste de tuple
+    data = session.query(Prix_Median.longitude,
+                         Prix_Median.latitude,
+                         Prix_Median.housing_median_age,
+                         Prix_Median.total_rooms,
+                         Prix_Median.total_bedrooms,
+                         Prix_Median.population,
+                         Prix_Median.households,
+                         Prix_Median.median_income,
+                         Prix_Median.median_house_value,
+                         Prix_Median.ocean_proximity_str).all()
+    session.close()
 
-    #data = pd.read_sql_query('select * from startups50', engine)
-
-    data = pd.read_csv("app/static/50_Startups.csv", thousands=',')
-    col_new = ['startup_id', 'RDSpend', 'Administration', 'MarketingSpend', 'State', 'Profit']
-    col_old = data.columns
-    for i in range(len(col_old)) :
-        data = data.rename(columns={col_old[i]: col_new[i+1]})
+    df_data = pd.DataFrame(data).dropna()
 
     palette=sns.color_palette("Paired")
     sns.set_palette(palette)
 
     plt.figure(figsize=[15,20])
     plt.gcf().subplots_adjust(wspace = 0.5, hspace = 0.5)
-    
-    plt.subplot(321)
-    sns.countplot(data= data, x="State")
-    plt.title("Disciplines des médaillés d'or de plus de 45 ans")
-    plt.xticks(rotation=45)
-    plt.xlabel('Etat')
 
-    plt.subplot(323)
-    sns.distplot(data["Profit"])
-    plt.title("Distribution du profit des startups")
+    plt.subplot(421)
+    sns.scatterplot(data=df_data, x="longitude", y="latitude")
+    plt.title("Distribution géographique des biens")
     plt.xticks(rotation=45)
-    plt.xlim(0, 300000)
-    plt.xlabel('Profit $')
+    plt.xlabel('longitude')
+    plt.ylabel('latitude')
+    plt.axis("scaled")
 
-    plt.subplot(324)
-    sns.distplot(data["Administration"])
-    plt.title("Distribution des dépenses administratives")
+    plt.subplot(422)
+    sns.distplot(df_data["median_house_value"])
+    plt.title("Distribution des biens suivant leur valeur ($) médiane")
     plt.xticks(rotation=45)
-    plt.xlim(0, 300000)
-    plt.xlabel('Dépense $')
+    plt.xlabel('Valeur médiane en $')
 
-    plt.subplot(325)
-    sns.distplot(data["MarketingSpend"])
-    plt.title("Distribution des dépenses en marketing")
+    plt.subplot(423)
+    sns.distplot(df_data["total_rooms"])
+    plt.title("Distribution des biens suivant leur surface totale (inch/m2)")
     plt.xticks(rotation=45)
-    plt.xlim(0, 600000)
-    plt.xlabel('Dépense $')
+    plt.xlim(0, 12000)
+    plt.xlabel('Surface totale en inch/m2')
 
-    plt.subplot(326)
-    sns.distplot(data["RDSpend"])
-    plt.title("Distribution des dépenses en R&D")
+    plt.subplot(424)
+    sns.distplot(df_data["total_bedrooms"])
+    plt.title("Distribution des biens suivant la surface des chambres (inch/m2)")
     plt.xticks(rotation=45)
-    plt.xlim(0, 300000)
-    plt.xlabel('Dépense $')
+    plt.xlim(0, 2000)
+    plt.xlabel('Surface chambres en inch/m2')
+
+    plt.subplot(425)
+    sns.distplot(df_data["population"])
+    plt.title("Distribution des biens suivant la population")
+    plt.xticks(rotation=45)
+    plt.xlim(0, 4000)
+    plt.xlabel('Polulation')
+
+    plt.subplot(426)
+    sns.distplot(df_data["households"])
+    plt.title("Distribution des biens suivant le nb de foyer du quartier")
+    plt.xticks(rotation=45)
+    plt.xlim(0, 2000)
+    plt.xlabel('Nb de foyer')
+
+    plt.subplot(427)
+    sns.distplot(df_data["median_income"])
+    plt.title("Distribution des biens sur les revenus médians")
+    plt.xticks(rotation=45)
+    # plt.xlim(0, 600000)
+    plt.xlabel('Revenu médian en m$')
+
+    plt.subplot(428)
+    sns.distplot(df_data["housing_median_age"])
+    plt.title("Distribution des biens suivant leur age médian")
+    plt.xticks(rotation=45)
+    # plt.xlim(0, 300000)
+    plt.xlabel('Age médian')
 
     plt.savefig("app/static/img/dashboard.png")
+    
     return None
-    plt.close()
+
+def predict(mi, nop):
+    # load model et return prediction
+    model = load('app/model_poly.joblib')
+    x = model.predict([[mi, nop]])[0]
+    return round(x,2)
