@@ -12,14 +12,35 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-d={'user':'remi',
-   'pwd':'simplon',
-   'host':'localhost'}
+def connect_db(dico):
 
-db_string = "postgres://"+d['user']+":"+d['pwd']+"@"+d['host']+':5432/housing'
+    str_engine = (
+        dico["connector"]
+        + "://"
+        + dico["user"]
+        + ":"
+        + dico["pwd"]
+        + "@"
+        + dico["host"]
+        + ":"
+        + dico["port"]
+        + "/"
+        + dico["bdd"]
+    )
+    connect = create_engine(str_engine)
+    return connect
 
-engine = create_engine(db_string)
 
+d = {
+    "connector": "postgresql",
+    "user": "luca",
+    "pwd": "simplon",
+    "host": "localhost",
+    "port": "5432",
+    "bdd": "housing",
+}
+
+engine = connect_db(d)*
 
 Session = sessionmaker(bind=engine)
 

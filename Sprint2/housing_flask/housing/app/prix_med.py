@@ -31,6 +31,7 @@ class Prix_Median(Base):
     def __init__(self, longitude, latitude, housing_median_age, total_rooms,
                  total_bedrooms, population, households, median_income,
                  median_house_value, ocean_proximity, ocean_proximity_str):
+    
         self.longitude = longitude
         self.latitude = latitude
         self.housing_median_age = housing_median_age
